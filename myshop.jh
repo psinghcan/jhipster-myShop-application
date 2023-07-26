@@ -1,0 +1,52 @@
+application {
+  config {
+    baseName myshop
+    packageName com.psinghcan.myshop
+    authenticationType jwt
+    prodDatabaseType mysql
+    buildTool maven
+    clientFramework angular
+    enableTranslation false
+    nativeLanguage en    
+  }
+  entities *
+}
+
+
+entity Category {
+    name String required    
+}
+
+entity Product {	
+    name String required
+    description String
+    price Double
+    status ProductStatus
+    category Category
+}
+
+entity Invoice {
+	uuid String
+    contactNumber String
+    createdBy String
+    email String
+    name String
+    paymentMethod PaymentMethod
+    productDetail String
+    totalAmount Double    
+}
+
+enum ProductStatus {
+    ACTIVE, SUSPENDED, OUT_OF_STOCK, COMING_SOON
+}
+
+enum PaymentMethod {
+	CASH, CHEQUE, CREDIT_CARD, LOAN
+}
+
+relationship ManyToOne {
+    Product{product(category) required} to Category
+}
+
+service * with serviceClass
+paginate Product, Invoice, Category with pagination
